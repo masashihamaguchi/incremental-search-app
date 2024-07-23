@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# incremental-search-app
+
+Next.jsのApp RouterとSpotify Web APIを使用して、楽曲の逐次検索の機能を実装しました。
+
+## Requirement
+
+- Node.js
+- yarn
+- Spotify for Developer
 
 ## Getting Started
 
-First, run the development server:
+### Project
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+1. Nodeパッケージをインストールをします。
+
+```shell
+yarn install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+yranがインストールされていない場合は、以下のコマンドでインストールしてください。
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```shell
+npm install -g yarn
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+※ Node.jsのバージョンは特に指定していませんが、LTSバージョンの使用をおすすめします。
 
-## Learn More
+### Spotify for Developer
 
-To learn more about Next.js, take a look at the following resources:
+1. Spotify for Developerにアクセスしログインをします。その後、アプリケーションを登録して、クライアントIDとクライアントシークレットを取得してください。
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+> [Spotify for Developer](https://developer.spotify.com/)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+2. `.env.local`ファイルを作成し、以下の内容を記述してください。
 
-## Deploy on Vercel
+```shell
+cp .env.local.example .env.local
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```dotenv:.env.local
+SPOTIFY_CLIENT_ID={your_client_id}
+SPOTIFY_CLIENT_SECRET={your_client_secret}
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Usage
+
+### for Development
+
+```shell
+yarn dev
+```
+
+### for Production
+
+```shell
+yarn build
+
+yarn start
+```
+
+## License
+
+Copyright (c) 2024 Masashi Hamaguchi<br/>
+Released under the MIT license<br/>
+https://opensource.org/licenses/mit-license.php

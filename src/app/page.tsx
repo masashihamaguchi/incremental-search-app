@@ -1,95 +1,55 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+'use client'
+
+import { useState } from 'react'
+
+import { Track } from '@spotify/web-api-ts-sdk'
+import useSWR from 'swr'
+
+import { searchTracks } from '@/actions/spotify'
+import TrackView from '@/components/track'
+
+import styles from './page.module.css'
 
 export default function Home() {
+  const [searchText, setSearchText] = useState<string>('')
+  const { data, isLoading } = useSWR(
+    ['/v1/search', searchText],
+    ([_path, query]) => searchTracks(query),
+    {
+      keepPreviousData: true,
+    }
+  )
+
   return (
     <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+      <div className={styles.container}>
+        <div className={styles.title}>
+          <h1>Search Tracks from Spotify</h1>
+          <p>Incremental Search App</p>
+        </div>
+
+        <input
+          className={styles.input}
+          type='text'
+          placeholder='tracks...'
+          value={searchText}
+          onChange={(event) => setSearchText(event.target.value)}
+        />
+
+        <div
+          className={`${styles.tracks} ${(data === undefined || data.length === 0) && styles.justifyContent}`}
+        >
+          {searchText === '' ? (
+            <p className={styles.message}>Let&#39;s search for music!</p>
+          ) : data && data.length > 0 ? (
+            data.map((track: Track) => TrackView(track))
+          ) : isLoading ? (
+            <p className={styles.message}>Searching...</p>
+          ) : (
+            <p className={styles.message}>Not Found...</p>
+          )}
         </div>
       </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
     </main>
-  );
+  )
 }

@@ -1,0 +1,65 @@
+.container {
+  padding: 12px;
+  background: linear-gradient(
+    5deg,
+    rgba(var(--card-rgb), 1) 0%,
+    rgba(var(--card-rgb), 0.5) 75%
+  );
+  border-radius: 12px;
+
+  display: flex;
+  gap: 12px;
+}
+
+.artwork {
+  width: 100px;
+  height: 100px;
+  border-radius: 8px;
+}
+
+.information {
+  width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+
+  flex-grow: 1;
+}
+
+.title,
+.artist,
+.playingText {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.title {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.artist,
+.playingText {
+  font-size: 0.8rem;
+  font-weight: 400;
+}
+
+.playing {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.navigation {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.share {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
